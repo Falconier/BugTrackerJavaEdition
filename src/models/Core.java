@@ -1,9 +1,13 @@
 package models;
 import java.io.*;
 import java.net.*;
+import org.json.*;
+
 public class Core
 {
-	public static void main(String[] args) throws IOException
+	
+	
+	public static void main(String[] args) throws IOException, JSONException
 	{		
 		int projId = 10;
 		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId=" + projId;
@@ -18,12 +22,16 @@ public class Core
 		System.out.println("Response Code : " + responseCode);
 		//get the results
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
-		String l = null;
-		while((l=br.readLine()) != null )
+		String s = null;
+		while((s=br.readLine()) != null )
 		{
-			System.out.println(l);
+			System.out.println(s);
 		}
 		br.close();
+		
+//		JSONObject jo = new JSONObject(s.toString());
+//		Project prj = jo.
+		
 	}
 }
 
