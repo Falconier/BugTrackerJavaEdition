@@ -1,13 +1,14 @@
 package models;
 import java.io.*;
 import java.net.*;
-import org.json.*;
+
+import extensionsAndHelpers.JSONDecoder;
 
 public class Core
 {
 	
 	
-	public static void main(String[] args) throws IOException, JSONException
+	public static void main(String[] args) throws IOException
 	{		
 		int projId = 10;
 		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId=" + projId;
@@ -30,7 +31,9 @@ public class Core
 		br.close();
 		
 //		JSONObject jo = new JSONObject(s.toString());
-//		Project prj = jo.
+		JSONDecoder j = new JSONDecoder();
+		Project prj = (Project) j.Decode(s);
+		prj.toString();
 		
 	}
 }
