@@ -7,13 +7,14 @@ import extensionsAndHelpers.JSONDecoder;
 
 import models.Project;
 
+
 public class Core
 {
 
 	private static final boolean DEBUG = false;
 	private static Project prj;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[ ] args) throws IOException
 	{
 		int projId = 10;
 		int tktId = 10;
@@ -34,12 +35,12 @@ public class Core
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
 		String s = null;
 		String response = "";
-		while ((s = br.readLine()) != null)
+		while( (s = br.readLine()) != null )
 		{
 			response += s;
 			System.out.println(s);
 		}
-		if (DEBUG)
+		if( DEBUG )
 		{
 			System.out.println(response);
 		}

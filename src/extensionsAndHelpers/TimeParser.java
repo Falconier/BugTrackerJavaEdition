@@ -32,7 +32,7 @@ public class TimeParser
 		return date;
 	}
 
-	public static void main(String[] args)
+	public static void main(String[ ] args)
 	{
 	}
 

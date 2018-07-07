@@ -2,6 +2,7 @@ package models;
 
 import java.sql.Time;
 
+
 public class Models
 {
 
@@ -22,44 +23,44 @@ public class Models
 		public Project()
 		{
 		}
-		
-		public Project(String[] st)
+
+		public Project(String[ ] st)
 		{
 			int len = st.length;
-			for(int i = 0; i<len; i++)
+			for( int i = 0; i < len; i++ )
 			{
 				int col = st[i].indexOf(':');
-				String param = st[i].substring(0,col+1).replace(':', ' ').trim();
-				switch(param)
+				String param = st[i].substring(0, col + 1).replace(':', ' ').trim();
+				switch( param )
 				{
-				case "Id" :  
-				{
-					Id = Integer.parseInt(st[i].substring(col+1,len));
-				}
-				case "Name" : 
-				{
-					Name = st[i].substring(col+1, len);
-				}
-				case "Manager" :
-				{
-					Manager = st[i].substring(col+1, len);
-				}
-				case "Deleted" :
-				{
-					Deleted = Boolean.parseBoolean(st[i].substring(col+1, len));
-				}
-				case "Description":
-				{
-					Description = st[i].substring(col+1, len);
-				}
-				case "Created":
-				{
-					Created = st[i].substring(col+1, len);
-				}
+					case "Id" :
+					{
+						Id = Integer.parseInt(st[i].substring(col + 1, len));
+					}
+					case "Name" :
+					{
+						Name = st[i].substring(col + 1, len);
+					}
+					case "Manager" :
+					{
+						Manager = st[i].substring(col + 1, len);
+					}
+					case "Deleted" :
+					{
+						Deleted = Boolean.parseBoolean(st[i].substring(col + 1, len));
+					}
+					case "Description" :
+					{
+						Description = st[i].substring(col + 1, len);
+					}
+					case "Created" :
+					{
+						Created = st[i].substring(col + 1, len);
+					}
 				}
 			}
 		}
-		
+
 		@Override
 		public String toString()
 		{

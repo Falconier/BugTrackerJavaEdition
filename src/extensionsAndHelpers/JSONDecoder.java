@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class JSONDecoder
 {
 
@@ -24,7 +25,7 @@ public class JSONDecoder
 
 	private int numComma;
 
-	private String[] pass1;
+	private String[ ] pass1;
 
 	public JSONDecoder()
 	{
@@ -39,15 +40,15 @@ public class JSONDecoder
 		lastComma = json.lastIndexOf(",");
 
 		numComma = count();
-		pass1 = new String[numComma + 1];
+		pass1 = new String[ numComma + 1 ];
 	}
 
 	private int count()
 	{
 		int counter = 0;
-		for (int i = 0; i < json.length(); i++)
+		for( int i = 0; i < json.length(); i++ )
 		{
-			if (json.charAt(i) == ',')
+			if( json.charAt(i) == ',' )
 			{
 				counter++;
 			}
@@ -55,7 +56,7 @@ public class JSONDecoder
 		return counter;
 	}
 
-	public String[] decode()
+	public String[ ] decode()
 	{
 		// TODO add ability to recognize repeating information. such as when
 		// 'GetAllUsers' or 'GetAllProjects' is called. NOTE THE ENDING '}' STILL
@@ -63,7 +64,7 @@ public class JSONDecoder
 		int fC = firstComma;
 		String subs = "";
 
-		for (int i = 0; i < numComma; i++)
+		for( int i = 0; i < numComma; i++ )
 		{
 			subs = parsing.substring(0, fC + 1).replace('"', ' ').replace('{', ' ').replace(',', ' ');
 			pass1[i] = subs.trim();
@@ -103,7 +104,7 @@ public class JSONDecoder
 	 * System.out.println("position: " + pe.getPosition()); System.out.println(pe);
 	 * }
 	 */
-	public static void main(String[] args) throws IOException
+	public static void main(String[ ] args) throws IOException
 	{
 		int projId = 14;
 		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId="
@@ -121,7 +122,7 @@ public class JSONDecoder
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
 		String s = null;
 		String response = "";
-		while ((s = br.readLine()) != null)
+		while( (s = br.readLine()) != null )
 		{
 			response += s;
 			System.out.println(s);
@@ -131,11 +132,11 @@ public class JSONDecoder
 
 		JSONDecoder m = new JSONDecoder(response);
 		System.out.println("\n" + m.toString());
-		String[] a = m.decode();
+		String[ ] a = m.decode();
 		// System.out.println(m.decode());
 		// System.out.println(m.parsing.substring(0,8).replace('"', ' '));
 		System.out.println();
-		for (int i = 0; i < a.length; i++)
+		for( int i = 0; i < a.length; i++ )
 		{
 			System.out.println(a[i]);
 		}

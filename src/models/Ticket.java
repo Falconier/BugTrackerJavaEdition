@@ -31,66 +31,66 @@ public class Ticket
 	{
 	}
 
-	public Ticket(String[] st)
+	public Ticket(String[ ] st)
 	{
 		int len = st.length;
-		for (int i = 0; i < len; i++)
+		for( int i = 0; i < len; i++ )
 		{
 			int col = st[i].indexOf(':');
 			int slen = st[i].length();
 			String param = st[i].substring(0, col + 1);
-			switch (param)
-				{
-				case "Id":
+			switch( param )
+			{
+				case "Id" :
 				{
 					Id = Integer.parseInt(st[i].substring(col + 1, slen).replace(':', ' ').trim());
 				}
-				case "Title":
+				case "Title" :
 				{
 					Title = st[i].substring(col + 1, slen);
 				}
-				case "Description":
+				case "Description" :
 				{
 					Description = st[i].substring(col, slen);
 				}
-				case "ProjectId":
+				case "ProjectId" :
 				{
 					ProjectId = Integer.parseInt(st[i].substring(col + 1, slen));
 				}
-				case "Created":
+				case "Created" :
 				{
 					Created = st[i].substring(col + 1, slen).trim();
 				}
-				case "Updated":
+				case "Updated" :
 				{
 					Updated = st[i].substring(col + 1, slen).trim();
 				}
-				case "TicketPriorityId":
+				case "TicketPriorityId" :
 				{
 					TicketPriorityId = Integer.parseInt(st[i].substring(col + 1, slen));
 				}
-				case "TicketTypeId":
+				case "TicketTypeId" :
 				{
 					TicketTypeId = Integer.parseInt(st[i].substring(col + 1, slen));
 				}
-				case "TicketStatusId":
+				case "TicketStatusId" :
 				{
 					TicketStatusId = Integer.parseInt(st[i].substring(col + 1, slen));
 				}
-				case "OwnerUserId":
+				case "OwnerUserId" :
 				{
 					OwnerUserId = st[i].substring(col + 1, slen).trim();
 				}
-				case "AssignedToUserId":
+				case "AssignedToUserId" :
 				{
 					String stuff = st[i].substring(col + 1, slen);
 					AssignedToUserId = stuff;
 				}
-				case "isResolved":
+				case "isResolved" :
 				{
 					isResolved = Boolean.parseBoolean(st[i].substring(col + 1, slen));
 				}
-				}
+			}
 		}
 	}
 
