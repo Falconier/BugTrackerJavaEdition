@@ -5,7 +5,7 @@ import java.sql.Time;
 public class Models
 {
 
-	class Projects
+	class Project
 	{
 		public int Id;
 
@@ -17,8 +17,49 @@ public class Models
 
 		public String Description;
 
-		public Time Created;
+		public String Created;
 
+		public Project()
+		{
+		}
+		
+		public Project(String[] st)
+		{
+			int len = st.length;
+			for(int i = 0; i<len; i++)
+			{
+				int col = st[i].indexOf(':');
+				String param = st[i].substring(0,col+1).replace(':', ' ').trim();
+				switch(param)
+				{
+				case "Id" :  
+				{
+					Id = Integer.parseInt(st[i].substring(col+1,len));
+				}
+				case "Name" : 
+				{
+					Name = st[i].substring(col+1, len);
+				}
+				case "Manager" :
+				{
+					Manager = st[i].substring(col+1, len);
+				}
+				case "Deleted" :
+				{
+					Deleted = Boolean.parseBoolean(st[i].substring(col+1, len));
+				}
+				case "Description":
+				{
+					Description = st[i].substring(col+1, len);
+				}
+				case "Created":
+				{
+					Created = st[i].substring(col+1, len);
+				}
+				}
+			}
+		}
+		
 		@Override
 		public String toString()
 		{
@@ -37,9 +78,9 @@ public class Models
 
 		public int ProjectId;
 
-		public Time Created;
+		public String Created;
 
-		public Time Updated;
+		public String Updated;
 
 		public int TicketPriorityId;
 

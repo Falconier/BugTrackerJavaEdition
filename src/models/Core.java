@@ -4,10 +4,14 @@ import java.net.*;
 
 import extensionsAndHelpers.JSONDecoder;
 
+import models.Project;
 public class Core
 {
 	
 	
+	private static final boolean DEBUG = false;
+	private static Project prj;
+
 	public static void main(String[] args) throws IOException
 	{		
 		int projId = 10;
@@ -24,16 +28,22 @@ public class Core
 		//get the results
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
 		String s = null;
+		String response = "";
 		while((s=br.readLine()) != null )
 		{
+			response += s;
 			System.out.println(s);
+		}
+		if(DEBUG)
+		{
+			System.out.println(response);
 		}
 		br.close();
 		
-//		JSONObject jo = new JSONObject(s.toString());
-		JSONDecoder j = new JSONDecoder();
-		Project prj = (Project) j.Decode(s);
-		prj.toString();
+		JSONDecoder d = new JSONDecoder(response);
+		Project prj = new Project(d.decode());
+		
+		System.out.println(prj.toString());
 		
 	}
 }
