@@ -25,7 +25,7 @@ public class JSONDecoder
 
 	private int numComma;
 
-	private String[ ] pass1;
+	private String[] pass1;
 
 	public JSONDecoder()
 	{
@@ -56,7 +56,7 @@ public class JSONDecoder
 		return counter;
 	}
 
-	public String[ ] decode()
+	public String[] decode()
 	{
 		// TODO add ability to recognize repeating information. such as when
 		// 'GetAllUsers' or 'GetAllProjects' is called. NOTE THE ENDING '}' STILL
@@ -104,7 +104,7 @@ public class JSONDecoder
 	 * System.out.println("position: " + pe.getPosition()); System.out.println(pe);
 	 * }
 	 */
-	public static void main(String[ ] args) throws IOException
+	public static void main(String[] args) throws IOException
 	{
 		int projId = 14;
 		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId="
@@ -132,7 +132,7 @@ public class JSONDecoder
 
 		JSONDecoder m = new JSONDecoder(response);
 		System.out.println("\n" + m.toString());
-		String[ ] a = m.decode();
+		String[] a = m.decode();
 		// System.out.println(m.decode());
 		// System.out.println(m.parsing.substring(0,8).replace('"', ' '));
 		System.out.println();

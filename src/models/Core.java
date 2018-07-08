@@ -12,16 +12,24 @@ public class Core
 {
 
 	private static final boolean DEBUG = false;
-	private static Project prj;
+	private static final boolean PRJ = false;
+	private static final boolean TKT = true;
 
-	public static void main(String[ ] args) throws IOException
+	public static void main(String[] args) throws IOException
 	{
 		int projId = 10;
 		int tktId = 10;
-		// String query =
-		// "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId="
-		// + projId;
-		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetTicketById?tktId=" + tktId;
+		String query = ";";
+		if( PRJ )
+		{
+			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId="
+					+ projId;
+		}
+		if( TKT )
+		{
+			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetTicketById?tktId=" + tktId;
+		}
+
 		URL url = new URL(query);
 		// make the connection
 		HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
@@ -47,11 +55,17 @@ public class Core
 		br.close();
 
 		JSONDecoder d = new JSONDecoder(response);
-		// Project prj = new Project(d.decode());
-		// System.out.println(prj.toString());
-
-		Ticket tkt = new Ticket(d.decode());
-		System.out.println(tkt.toString());
+		if( PRJ )
+		{
+			Project prj = new Project(d.decode());
+			System.out.println(prj.toString());
+		}
+		// String[] a = d.decode();
+		if( TKT )
+		{
+			Ticket tkt = new Ticket(d.decode());
+			System.out.println(tkt.toString());
+		}
 	}
 }
 

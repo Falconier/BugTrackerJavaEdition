@@ -19,7 +19,7 @@ public class Project
 	{
 	}
 
-	public Project(String[ ] st)
+	public Project(String[] st)
 	{
 		int len = st.length;
 		for( int i = 0; i < len; i++ )
@@ -32,26 +32,32 @@ public class Project
 				case "Id" :
 				{
 					Id = Integer.parseInt(st[i].substring(col + 1, slen));
+					break;
 				}
 				case "Name" :
 				{
 					Name = st[i].substring(col + 2, slen);
+					break;
 				}
 				case "Manager" :
 				{
 					Manager = st[i].substring(col + 1, slen).trim();
+					break;
 				}
 				case "Deleted" :
 				{
 					Deleted = Boolean.parseBoolean(st[i].substring(col + 1, slen));
+					break;
 				}
 				case "Description" :
 				{
 					Description = st[i].substring(col, slen);
+					break;
 				}
 				case "Created" :
 				{
 					Created = st[i].substring(col + 1, slen).trim();
+					break;
 				}
 			}
 		}
