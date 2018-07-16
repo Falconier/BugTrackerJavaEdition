@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.*;
 
 
 public class JSONDecoder
@@ -26,6 +27,8 @@ public class JSONDecoder
 	private int numComma;
 
 	private String[] pass1;
+
+	private String[] pass2;
 
 	public JSONDecoder()
 	{
@@ -56,6 +59,19 @@ public class JSONDecoder
 		return counter;
 	}
 
+	private int countBrace()
+	{
+		int counter = 0;
+		for( int i = 0; i < json.length(); i++ )
+		{
+			if( json.charAt(i) == '}' )
+			{
+				counter++;
+			}
+		}
+		return counter;
+	}
+
 	public String[] decode()
 	{
 		// TODO add ability to recognize repeating information. such as when
@@ -76,6 +92,50 @@ public class JSONDecoder
 		return pass1;
 	}
 
+	/**
+	 * Not really sure that this is a logical idea
+	 * 
+	 * @return
+	 */
+	public String[] doublePassDecode()
+	{
+
+		int fB = countBrace();
+		String[] a = decode();
+		String subs = "";
+		int p1l = a.length;
+		pass2 = new String[ p1l + 1 ];
+
+		int count = (int) p1l / fB;
+
+		for( int i = 0; i < a.length; i += count )
+		{
+			for( int j = 0; j < count; j++ )
+			{
+				subs = a[i + j].substring(0, a[i + j].indexOf(':') + 1);
+				pass2[i] = subs.trim();
+			}
+		}
+
+		return pass2;
+	}
+	
+	
+	// this is really illogical
+	// what am I doing
+	public String[] regexPass()
+	{
+		String re1="(\\[)";	// Any Single Character 1
+
+	    Pattern p = Pattern.compile(re1,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+	    Matcher m = p.matcher(txt);
+	    if (m.find())
+	    {
+	        String c1=m.group(1);
+	        System.out.print("("+c1.toString()+")"+"\n");
+	    }
+	}
+
 	@Override
 	public String toString()
 	{
@@ -85,8 +145,9 @@ public class JSONDecoder
 	public static void main(String[] args) throws IOException
 	{
 		int projId = 14;
-		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetAllProjects";
+		//String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetAllProjects";
 		// + projId;
+		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId=" + projId;
 		URL url = new URL(query);
 		// make the connection
 		HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
@@ -108,9 +169,10 @@ public class JSONDecoder
 		System.out.println(response);
 		br.close();
 
-		JSONDecoder m = new JSONDecoder(response);
-		System.out.println("\n" + m.toString());
-		String[] a = m.decode();
+		JSONDecoder d = new JSONDecoder(response);
+		System.out.println("\n" + d.toString());
+		// Decode the response from the 'GET' request
+		String[] a = d.decode();
 		// System.out.println(m.decode());
 		// System.out.println(m.parsing.substring(0,8).replace('"', ' '));
 		System.out.println();
@@ -119,6 +181,16 @@ public class JSONDecoder
 			System.out.println(a[i]);
 		}
 		System.out.println(a.length);
+		
+//		String re1="(\\[)";	// Any Single Character 1
+//
+//	    Pattern p = Pattern.compile(re1,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+//	    Matcher m = p.matcher(response);
+//	    if (m.find())
+//	    {
+//	        String c1=m.group(1);
+//	        System.out.print("("+c1.toString()+")"+"\n");
+//	    }
 	}
 
 }
