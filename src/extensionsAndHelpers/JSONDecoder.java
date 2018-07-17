@@ -45,6 +45,18 @@ public class JSONDecoder
 		numComma = count();
 		pass1 = new String[ numComma + 1 ];
 	}
+	
+	public void setDecoderIn(String JSON)
+	{
+		json = JSON;
+		parsing = JSON;
+		length = json.length();
+		firstComma = json.indexOf(",");
+		lastComma = json.lastIndexOf(",");
+
+		numComma = count();
+		pass1 = new String[ numComma + 1 ];
+	}
 
 	private int count()
 	{
@@ -82,12 +94,12 @@ public class JSONDecoder
 
 		for( int i = 0; i < numComma; i++ )
 		{
-			subs = parsing.substring(0, fC + 1).replace('"', ' ').replace('{', ' ').replace(',', ' ');
+			subs = parsing.substring(0, fC + 1).replace('"', ' ').replace('{', ' ').replace(',', ' ').replace('}', ' ').replace('[', ' ').replace(']', ' ');
 			pass1[i] = subs.trim();
 			parsing = parsing.substring(fC + 1, parsing.length());
 			fC = parsing.indexOf(",");
 		}
-		pass1[numComma] = parsing.replace('"', ' ').replace('}', ' ').trim();
+		pass1[numComma] = parsing.replace('"', ' ').replace('{', ' ').replace(',', ' ').replace('}', ' ').replace('[', ' ').replace(']', ' ').trim();
 
 		return pass1;
 	}
@@ -123,18 +135,18 @@ public class JSONDecoder
 	
 	// this is really illogical
 	// what am I doing
-	public String[] regexPass()
-	{
-		String re1="(\\[)";	// Any Single Character 1
-
-	    Pattern p = Pattern.compile(re1,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-	    Matcher m = p.matcher(txt);
-	    if (m.find())
-	    {
-	        String c1=m.group(1);
-	        System.out.print("("+c1.toString()+")"+"\n");
-	    }
-	}
+//	public String[] regexPass()
+//	{
+//		String re1="(\\[)";	// Any Single Character 1
+//
+//	    Pattern p = Pattern.compile(re1,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+//	    Matcher m = p.matcher(txt);
+//	    if (m.find())
+//	    {
+//	        String c1=m.group(1);
+//	        System.out.print("("+c1.toString()+")"+"\n");
+//	    }
+//	}
 
 	@Override
 	public String toString()

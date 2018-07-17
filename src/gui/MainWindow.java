@@ -1,11 +1,11 @@
 package gui;
 
 import java.awt.*;
+import java.awt.List;
 
 import javax.swing.*;
 
-import models.Ticket;
-
+import models.*;
 
 public class MainWindow extends JFrame
 {
@@ -16,6 +16,7 @@ public class MainWindow extends JFrame
 
 	public MainWindow()
 	{
+		
 		super("BugTrackerView - Master View");
 		setSize(windowSize.height, windowSize.width);
 		// setLocation(((screenSize.height/2)-(windowSize.height/2)),
@@ -34,9 +35,11 @@ public class MainWindow extends JFrame
 
 		// TODO -- use core to import list of projects using Hashmaps
 		Choice choice = new Choice();
-		for( int i = 0; i < 10; i++ )
+//		List<Project> l1 =  Core.GetAllProjects();
+		int PrjLen = Core.GetAllProjects().size();
+		for( int i = 0; i < PrjLen-1; i++ )
 		{
-			choice.add("" + i);
+			choice.add(Core.GetAllProjects().get(i).Name);
 		}
 		choice.setBounds(10, 20, 200, 25);
 		desktopPane.add(choice);

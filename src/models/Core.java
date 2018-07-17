@@ -69,13 +69,58 @@ public class Core
 	}
 
 	public static List<Project> GetProjectsList()
+	public static List<ProjectMin> GetProjectsMinList()
 	{
-		List<Project> a = new ArrayList<Project>();
-		Project prj = new Project();
-		a.add(prj);
-		return a;
+		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetAllProjectsMinDetails";
+		String response = "";
+		List<ProjectMin> Pm = new ArrayList<ProjectMin>();
+		try
+		{
+			response += request(query);
+		} catch ( IOException e )
+		{
+			System.out.println("Query Request Failed. Check Stack Trace for more information.");
+			e.printStackTrace();
+		}
+
+		JSONDecoder d = new JSONDecoder(response);
+		String[] a = d.decode();
+		for(int i = 0; i<a.length; i++)
+		{
+			ProjectMin prj = new ProjectMin();
+			prj.setId(Integer.parseInt(a[i].substring(a[i].indexOf(':')+1)));
+			Pm.add(prj);
+//			System.out.println(Pm.get(i));
+		}
+		return Pm;
 	}
 
+	public static List<Project> GetAllProjects()
+	{
+		String query = "";
+		String response = "";
+		List<ProjectMin> ml = Core.GetProjectsMinList();
+		List<Project> prjs = new ArrayList<Project>();
+		JSONDecoder d = new JSONDecoder();
+		for (int i = 0; i<ml.size();i++)
+		{
+			int prjId = ml.get(i).Id;
+			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId=" + prjId;
+			try
+			{
+				response = Core.request(query);
+				d.setDecoderIn(response);
+				Project prj = new Project(d.decode());
+				prjs.add(prj);
+			} catch ( IOException e )
+			{
+				System.out.println("Query Request Failed on project " + prjId + ". Check Stack Trace for more information.");
+				e.printStackTrace();
+			}
+		}
+		return prjs;
+	}
+	
 	public static String request(String query) throws IOException
 	{
 		URL url = new URL(query);
@@ -105,54 +150,10 @@ public class Core
 
 	public static void main(String[] args) throws IOException
 	{
-		int projId = 10;
-		int tktId = 10;
-		String query = "";
-		if( PRJ )
+		List<Project> a = Core.GetAllProjects();
+		for( int i = 0; i<a.size(); i++)
 		{
-			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId="
-					+ projId;
-		}
-		if( TKT )
-		{
-			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetTicketById?tktId=" + tktId;
-		}
-
-		URL url = new URL(query);
-		// make the connection
-		HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-		// use get mode
-		urlc.setRequestMethod("GET");
-		// urlc.setRequestProperty("projId", "10");
-		int responseCode = urlc.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + query);
-		System.out.println("Response Code : " + responseCode);
-		// get the results
-		BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
-		String s = null;
-		String response = "";
-		while( (s = br.readLine()) != null )
-		{
-			response += s;
-			System.out.println(s);
-		}
-		if( DEBUG )
-		{
-			System.out.println(response);
-		}
-		br.close();
-
-		JSONDecoder d = new JSONDecoder(response);
-		if( PRJ )
-		{
-			Project prj = new Project(d.decode());
-			System.out.println(prj.toString());
-		}
-		// String[] a = d.decode();
-		if( TKT )
-		{
-			Ticket tkt = new Ticket(d.decode());
-			System.out.println(tkt.toString());
+			System.out.println(a.get(i));
 		}
 	}
 }
