@@ -11,7 +11,7 @@ import java.util.regex.*;
 public class JSONDecoder
 {
 
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 
 	public String json = "";
 

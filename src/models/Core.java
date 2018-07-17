@@ -104,7 +104,7 @@ public class Core
 		JSONDecoder d = new JSONDecoder();
 		for (int i = 0; i<ml.size();i++)
 		{
-			int prjId = ml.get(i).Id;
+			int prjId = ml.get(i).getId();
 			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetProjectById?projectId=" + prjId;
 			try
 			{
@@ -119,6 +119,58 @@ public class Core
 			}
 		}
 		return prjs;
+	}
+	
+	public static List<TicketMin> GetTicketsMinOnProjectList(int prjId)
+	{
+		String query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetTicketsMinOnProject?projId=" + prjId;
+		String response = "";
+		List<TicketMin> Tm = new ArrayList<TicketMin>();
+		try
+		{
+			response += request(query);
+		} catch ( IOException e )
+		{
+			System.out.println("Query Request Failed. Check Stack Trace for more information.");
+			e.printStackTrace();
+		}
+
+		JSONDecoder d = new JSONDecoder(response);
+		String[] a = d.decode();
+		for(int i = 0; i<a.length; i++)
+		{
+			TicketMin tkt = new TicketMin();
+			tkt.setId(Integer.parseInt(a[i].substring(a[i].indexOf(':')+1)));
+			Tm.add(tkt);
+//			System.out.println(Pm.get(i));
+		}
+		return Tm;
+	}
+	
+	public static List<Ticket> GetTicketsOnProject(int prjId)
+	{
+		String query = "";
+		String response = "";
+		List<TicketMin> ml = Core.GetTicketsMinOnProjectList(prjId);
+		List<Ticket> tkts = new ArrayList<Ticket>();
+		JSONDecoder d = new JSONDecoder();
+		for (int i = 0; i<ml.size();i++)
+		{
+			int tktId = ml.get(i).getId();
+			query = "http://jebbugtrackerservice.azurewebsites.net:80/Api/BugTracker/GetTicketById?tktId=" + tktId;
+			try
+			{
+				response = Core.request(query);
+				d.setDecoderIn(response);
+				Ticket tkt = new Ticket(d.decode());
+				tkts.add(tkt);
+			} catch ( IOException e )
+			{
+				System.out.println("Query Request Failed on project " + prjId + ". Check Stack Trace for more information.");
+				e.printStackTrace();
+			}
+		}
+		return tkts;
 	}
 	
 	public static String request(String query) throws IOException
@@ -150,7 +202,7 @@ public class Core
 
 	public static void main(String[] args) throws IOException
 	{
-		List<Project> a = Core.GetAllProjects();
+		List<Ticket> a = Core.GetTicketsOnProject(10);
 		for( int i = 0; i<a.size(); i++)
 		{
 			System.out.println(a.get(i));

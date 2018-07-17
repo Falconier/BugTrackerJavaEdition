@@ -1,14 +1,14 @@
 package models;
 
-public class ProjectMin
+public class TicketMin
 {
 	private int Id;
-
-	public ProjectMin()
+	
+	public TicketMin()
 	{
 	}
 
-	public ProjectMin(String[] st)
+	public TicketMin(String[] st)
 	{
 		int len = st.length;
 		for( int i = 0; i < len; i++ )
@@ -20,26 +20,27 @@ public class ProjectMin
 			{
 				case "Id" :
 				{
-					Id = Integer.parseInt(st[i].substring(col + 1, slen));
+					Id = Integer.parseInt(st[i].substring(col + 1, slen).replace(':', ' ').trim());
 					break;
 				}
 			}
 		}
 	}
-	
+
 	public int getId()
 	{
 		return Id;
 	}
 	
-	public void setId(int Id)
+	public void setId(int tktId)
 	{
-		this.Id = Id;
+		Id = tktId;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "Project Id : " + Id;
+		return "Ticket Id : " + Id;
 	}
 }
+

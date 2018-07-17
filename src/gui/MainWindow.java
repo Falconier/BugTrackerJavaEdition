@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.List;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -13,6 +14,9 @@ public class MainWindow extends JFrame
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 	private Dimension windowSize = new Dimension(550, 800);
+	
+	//TODO - Fix this
+//	private HashMap Projects = new HashMap<String, int>();
 
 	public MainWindow()
 	{
@@ -50,10 +54,20 @@ public class MainWindow extends JFrame
 
 		// TODO -- use core to import list of tickets on selected project from 'choice'
 		// possibly with Hashmaps
-		List list = new List();
-		for( int i = 0; i < 10; i++ )
+//		String selectedPrj = choice.getSelectedItem();
+		int slctPrj = 10;
+		/*for(int i = 0; i < PrjLen-1; i++)
 		{
-			list.add("" + i);
+			if(Core.GetAllProjects().get(i).Name.equals(selectedPrj))
+			{
+				slctPrj = Core.GetAllProjects().get(i).Id;
+			}
+		}*/
+		List list = new List();
+		int TktLen = Core.GetTicketsOnProject(slctPrj).size();
+		for( int i = 0; i < TktLen; i++ )
+		{
+			list.add(Core.GetTicketsOnProject(slctPrj).get(i).Title);
 		}
 		list.setBackground(Color.WHITE);
 		list.setBounds(10, 75, 200, 443);
